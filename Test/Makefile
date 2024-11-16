@@ -1,12 +1,14 @@
 
 
-d = 1024
+d =
+
+CFLAGS = -Wall -Wextra -Werror
+ifneq ($(d),)
+    CFLAGS += -D BUFFER_SIZE=$(d)
+endif
 
 all:
-	@if [ "$(d)" != "1024" ]; then \
-		@cc -D BUFFER_SIZE=$(d) test.c ../Project/*.c -L../Project; \
-	else \
-	 	@cc test.c ../Project/*.c -L../Project; \
-	fi
-	@echo "---------------------Output---------------------"
+	@echo;
+	cc $(CFLAGS) test.c ../Project/*.c -L../Project;
+	@echo "\n---------------------Output---------------------";
 	@./a.out; rm -f a.out
