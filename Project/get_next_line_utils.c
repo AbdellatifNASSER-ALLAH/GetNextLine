@@ -6,8 +6,12 @@
 /*   By: abdnasse <abdnasse@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:48:30 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/15 15:50:02 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/17 00:04:51 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
+char	*ft_realloc(char *p, size_t n)
+{
+
+}
