@@ -6,13 +6,15 @@
 
 void print(char *str)
 {
+	if (!str)
+		return ;
 	int i = 0;
 	while(str[i])
 	{
 		if(str[i] == '\n')
 			write(1,"0",1);
-		else if(str[i] == '\0')
-			write(1,"$",1);
+		else if (str[i + 1] == '\0')
+			write(1, "$", 1);
 		else
 			write(1, str + i, 1);
 		i++;
@@ -26,10 +28,10 @@ int main()
 	int fd = open("a", O_RDONLY);
 
 	print(get_next_line(fd));
-	print(get_next_line(fd));
-	print(get_next_line(fd));
-	print(get_next_line(fd));
-	print(get_next_line(fd));
-	print(get_next_line(fd));
-	print(get_next_line(fd));
+//	print(get_next_line(fd));
+//	print(get_next_line(fd));
+//	print(get_next_line(fd));
+//	print(get_next_line(fd));
+//	print(get_next_line(fd));
+//	print(get_next_line(fd));
 }

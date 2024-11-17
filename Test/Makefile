@@ -2,7 +2,7 @@
 
 d =
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror
 ifneq ($(d),)
     CFLAGS += -D BUFFER_SIZE=$(d)
 endif
