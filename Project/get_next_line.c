@@ -6,50 +6,67 @@
 /*   By: abdnasse <abdnasse@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:50:09 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/18 18:46:58 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/18 22:18:57 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 #include <stdio.h>
+#include <string.h>
 
 char	*get_next_line(int fd)
 {
-	char	*buffer;
+	static char	*buffer;
+	char	*line;
 	ssize_t	bytes;
 	ssize_t	i;
 
-	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buffer)
+	{
+		buffer = (char *)malloc((BUFFER_SIZE) * sizeof(char));
+		ft_bzero(buffer, BUFFER_SIZE);
+	}
 	if (!buffer)
 		return (NULL);
-	ft_bzero(buffer, BUFFER_SIZE + 1);
-	i = 0;
+	line = buffer;
+	i = ft_strlen(buffer);
 	while(1)
 	{
-		bytes = read(fd, buffer + i, BUFFER_SIZE);
+		if (*buffer && ft_newline(buffer))
+		{
+			buffer = strdup(buffer + ft_newline(buffer));
+			line = ft_realloc(line, ft_newline(line));
+			if (!line)
+				return (NULL);
+			
+			break;
+		}
+		bytes = read(fd, line + i, BUFFER_SIZE);
 		if(bytes < 0)
 			return (NULL);
 		if (bytes == 0) 
 		{
-			buffer = ft_realloc(buffer, ft_strlen(buffer));
-			if (!buffer)
+			line = ft_realloc(line, ft_strlen(line));
+			if (!line)
 				return (NULL);
 			break;
 		}
-		if (ft_newline(buffer))
+		if (ft_newline(line))
 		{
-			buffer = ft_realloc(buffer, ft_newline(buffer));
-			if (!buffer)
+			buffer = strdup(line + ft_newline(line));
+			line = ft_realloc(line, ft_newline(line));
+			if (!line)
 				return (NULL);
+			
 			break;
 		}
 		else
 		{
 			i += BUFFER_SIZE;
-			buffer = ft_realloc(buffer, i + BUFFER_SIZE);
-			if (!buffer)
+			line = ft_realloc(line, i + BUFFER_SIZE);
+			if (!line)
 				return (NULL);
 		}
 
 	}
-	return (buffer);
+	return (line);
 }
