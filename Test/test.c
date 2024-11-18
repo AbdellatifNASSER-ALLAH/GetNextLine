@@ -28,10 +28,7 @@ int main()
 	int fd = open("a", O_RDONLY);
 
 	print(get_next_line(fd));
-//	print(get_next_line(fd));
-//	print(get_next_line(fd));
-//	print(get_next_line(fd));
-//	print(get_next_line(fd));
-//	print(get_next_line(fd));
-//	print(get_next_line(fd));
+	print(get_next_line(fd));
+	print(get_next_line(fd));
+	print(get_next_line(fd));
 }

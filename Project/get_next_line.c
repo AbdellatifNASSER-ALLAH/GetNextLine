@@ -6,11 +6,11 @@
 /*   By: abdnasse <abdnasse@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:50:09 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/18 16:21:28 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/18 18:10:00 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
-#include <string.h>
+#include <stdio.h>
 
 char	*get_next_line(int fd)
 {
@@ -18,9 +18,10 @@ char	*get_next_line(int fd)
 	ssize_t	bytes;
 	ssize_t	i;
 
-	buffer = (char *)mallo((BUFFER_SIZE + 1) * sizeof(char));
+	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
+	ft_bzero(buffer, BUFFER_SIZE + 1);
 	i = 0;
 	while(1)
 	{
@@ -41,9 +42,9 @@ char	*get_next_line(int fd)
 			if (!buffer)
 				return (NULL);
 		}
-		else 
+		else if (bytes == 0) 
 		{
-			buffer = ft_realloc(buffer, strlen(buffer));
+			buffer = ft_realloc(buffer, ft_strlen(buffer));
 			if (!buffer)
 				return (NULL);
 			break;
