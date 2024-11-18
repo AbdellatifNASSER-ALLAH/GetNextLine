@@ -6,47 +6,48 @@
 /*   By: abdnasse <abdnasse@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:50:09 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/17 16:48:08 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:21:28 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
-#include <stdio.h>
+#include <string.h>
 
 char	*get_next_line(int fd)
 {
-	char	*line;
+	char	*buffer;
 	ssize_t	bytes;
-	size_t	i;
+	ssize_t	i;
 
-	line = (char *)malloc(BUFFER_SIZE + 1);
-	if (!line)
+	buffer = (char *)mallo((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buffer)
 		return (NULL);
 	i = 0;
-	while ((bytes = read(fd, line + i, 1)) > 0)
+	while(1)
 	{
-		if (i >= BUFFER_SIZE)
+		bytes = read(fd, buffer + i, BUFFER_SIZE);
+		if(bytes < 0)
+			return (NULL);
+		if (bytes && ft_newline(buffer))
 		{
-			line = ft_realloc(line , i + BUFFER_SIZE);
-			if (!line) 
+			buffer = ft_realloc(buffer, ft_newline(buffer));
+			if (!buffer)
+				return (NULL);
+			break;
+		}
+		else if (bytes && !ft_newline(buffer))
+		{
+			i += BUFFER_SIZE;
+			buffer = ft_realloc(buffer, i + BUFFER_SIZE);
+			if (!buffer)
 				return (NULL);
 		}
-		if (line[i] == '\n')
+		else 
 		{
-			i++;
-			break ;
+			buffer = ft_realloc(buffer, strlen(buffer));
+			if (!buffer)
+				return (NULL);
+			break;
 		}
-		i++;
 	}
-	line[i] = 0;
-	line = ft_realloc(line, i);
-	if (!line)
-		return (NULL);
-	if (bytes == 0)
-		return (line);
-	if (bytes < 0)
-	{
-		free(line);
-		return (NULL);
-	}
-	return (line);
+	return (buffer);
 }
