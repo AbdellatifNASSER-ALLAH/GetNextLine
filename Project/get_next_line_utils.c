@@ -6,7 +6,7 @@
 /*   By: abdnasse <abdnasse@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:48:30 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/19 19:47:53 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/19 20:39:50 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -30,7 +30,7 @@ void	ft_bzero(void *s, size_t n)
 		p[n] = 0;
 }
 
-size_t	ft_newline(char *p)
+size_t	_newline(char *p)
 {
 	size_t	i;
 
@@ -44,14 +44,14 @@ size_t	ft_newline(char *p)
 	return (0);
 }
 
-char	*ft_realloc(char *s, size_t n)
+char	*_realloc(char *s, size_t n)
 {
 	char	*p;
 	char	*org;
 	size_t	i;
 
 	org = s;
-	p = malloc((n + 1) * sizeof(char));
+	p = malloc(n + 1);
 	if (!p)
 		return (NULL);
 	ft_bzero(p, n + 1);
