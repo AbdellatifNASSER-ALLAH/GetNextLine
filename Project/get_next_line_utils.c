@@ -6,7 +6,7 @@
 /*   By: abdnasse <abdnasse@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:48:30 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/19 11:43:38 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/19 19:47:53 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -59,5 +59,6 @@ char	*ft_realloc(char *s, size_t n)
 	while (*s && i < n)
 		p[i++] = *(s++);
 	free(org);
+	p[i] = 0;
 	return (p);
 }
