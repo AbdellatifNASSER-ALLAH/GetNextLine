@@ -6,7 +6,7 @@
 /*   By: abdnasse <abdnasse@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:48:30 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/18 22:50:34 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/19 11:43:38 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -34,6 +34,8 @@ size_t	ft_newline(char *p)
 {
 	size_t	i;
 
+	if (!p)
+		return (0);
 	i = 0;
 	while (p && p[i] && p[i] != '\n')
 		i++;
@@ -57,6 +59,5 @@ char	*ft_realloc(char *s, size_t n)
 	while (*s && i < n)
 		p[i++] = *(s++);
 	free(org);
-	p[i] = '\0';
 	return (p);
 }

@@ -26,6 +26,7 @@ void print(char *str)
 int main()
 {
 	int fd = open("a", O_RDONLY);
+	//int fd = open("b", O_RDONLY);
 
 	printf("%s",get_next_line(fd));
 	printf("%s",get_next_line(fd));
