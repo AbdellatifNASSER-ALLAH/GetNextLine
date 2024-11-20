@@ -6,24 +6,37 @@
 /*   By: abdnasse <abdnasse@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:50:09 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/19 20:53:05 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/20 13:56:22 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
-#include <stdio.h>
-#include <string.h>
+
+char	*ft_strdup(const char *s)
+{
+	char	*p;
+	size_t	len;
+
+	len = ft_strlen(s);
+	p = (char *)malloc((len + 1) * sizeof(char));
+	if (!p)
+		return (0);
+	*(p + len) = 0;
+	while (len--)
+		*(p + len) = *(s + len);
+	return (p);
+}
 
 char	*_set_line(char **buffer)
 {
-	size_t	newline;
+	size_t	index;
 	char	*line;
 	char	*cache;
 
-	newline = _newline(*buffer);
-	if (newline > 0)
+	index = _newline(*buffer);
+	if (index > 0)
 	{
-		cache = strdup(*buffer + newline);
-		line = _realloc(*buffer, newline);
+		cache = ft_strdup(*buffer + index);
+		line = _realloc(*buffer, index);
 		if(!line)
 			return (NULL);
 		*buffer = cache;
@@ -33,6 +46,7 @@ char	*_set_line(char **buffer)
 		line = _realloc(*buffer, ft_strlen(*buffer));
 		if (!line)
 			return (NULL);
+		*buffer = NULL;
 	}
 	return (line);
 }
@@ -43,7 +57,7 @@ char	*get_next_line(int fd)
 	char	*line;
 	ssize_t	bytes;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
 	if (!buffer)
 	{
@@ -70,13 +84,8 @@ char	*get_next_line(int fd)
 			free(line);
 			return (NULL);
 		}
-		strcat(buffer, line);
+		ft_strcat(buffer, line);
 		free(line);
-		if (bytes == 0 && !buffer[0])
-		{
-			free(buffer);
-			return (NULL);
-		}
 		if (bytes == 0)
 			break ;
 	}

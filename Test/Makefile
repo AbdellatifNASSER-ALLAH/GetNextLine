@@ -12,3 +12,6 @@ all:
 	cc $(CFLAGS) test.c ../Project/*.c -I../Project;
 	@echo "\n---------------------Output---------------------";
 	@./a.out
+
+clean:
+	rm -rf a.out*

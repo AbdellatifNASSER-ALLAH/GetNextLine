@@ -6,12 +6,12 @@
 /*   By: abdnasse <abdnasse@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:48:30 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/19 20:39:50 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/20 13:56:19 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-size_t	ft_strlen(char *s)
+size_t	ft_strlen(const char *s)
 {
 	size_t	i;
 
@@ -28,6 +28,17 @@ void	ft_bzero(void *s, size_t n)
 	p = s;
 	while (n--)
 		p[n] = 0;
+}
+
+size_t	ft_strcat(char *dst, char *src)
+{
+	size_t	i;
+
+	i = ft_strlen(dst);
+	while (*src)
+		dst[i++] = *src++;
+	dst[i] = '\0';
+	return (i);
 }
 
 size_t	_newline(char *p)
@@ -47,18 +58,19 @@ size_t	_newline(char *p)
 char	*_realloc(char *s, size_t n)
 {
 	char	*p;
-	char	*org;
 	size_t	i;
 
-	org = s;
 	p = malloc(n + 1);
 	if (!p)
 		return (NULL);
 	ft_bzero(p, n + 1);
 	i = 0;
-	while (*s && i < n)
-		p[i++] = *(s++);
-	free(org);
+	while (s[i] && i < n)
+	{
+		p[i] = s[i];
+		i++;
+	}
+	free(s);
 	p[i] = 0;
 	return (p);
 }

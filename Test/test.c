@@ -3,33 +3,22 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <string.h>
 
-void print(char *str)
+void	ft_putstr_fd(char *s, int fd)
 {
-	if (!str)
+	if (!s || fd < 0)
 		return ;
-	int i = 0;
-	while(str[i])
-	{
-		if(str[i] == '\n')
-			write(1,"0",1);
-		else if (str[i + 1] == '\0')
-			write(1, "$", 1);
-		else
-			write(1, str + i, 1);
-		i++;
-	}
-	free(str);
-	printf("\n");
+	write(fd, s, strlen(s));
 }
-
 int main()
 {
 	int fd = open("a", O_RDONLY);
-	//int fd = open("b", O_RDONLY);
+	char *p;
 
-	printf("%s",get_next_line(fd));
-	printf("%s",get_next_line(fd));
-	printf("%s",get_next_line(fd));
-	printf("%s",get_next_line(fd));
+	p = get_next_line(fd);
+	ft_putstr_fd(p, 1);
+	free(p);
+	ft_putstr_fd("\nruning...", 1);
+	while(1){}
 }
