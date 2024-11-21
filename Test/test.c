@@ -19,19 +19,17 @@ void	prints(char *s)
 	}
 	write(1, "\\0\"\n", 4);
 }
-int main(int ac, char **av)
+int main()
 {
-	if (ac > 1)
-	{
-		int fd = open(av[1], O_RDONLY);
+		int fd = open("read_error.txt", O_RDONLY);
 		char *p;
 
 		while ((p = get_next_line(fd)))
 		{
 			prints(p);
 			free(p);
-//			getchar();
+		//	getchar();
 		}
-	}
+		while (1){}
 	return (0);
 }

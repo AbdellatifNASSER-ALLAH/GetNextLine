@@ -6,7 +6,7 @@
 /*   By: abdnasse <abdnasse@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:50:09 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/21 21:13:23 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/21 23:20:06 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -26,88 +26,94 @@ char	*ft_strdup(const char *s)
 	return (p);
 }
 
-char	*f_set_line(char **buffer)
+char	*f_set_line(char **cache)
 {
 	size_t	index;
-	char	*line;
-	char	*cache;
+	char	*buffer;
+	char	*up;
 
-	index = f_newline(*buffer);
+	index = f_newline(*cache);
 	if (index > 0)
 	{
-		cache = ft_strdup(*buffer + index);
-		line = f_realloc(*buffer, index);
-		if(!line)
+		up = ft_strdup(*cache + index);
+		
+		if (!up)
 			return (NULL);
-		*buffer = cache;
+		buffer = f_realloc(*cache, index);
+		if(!buffer)
+		{
+			free(up);
+			return (NULL);
+		}
+		*cache = up;
 	}
 	else 
 	{
-		line = *buffer;
-		*buffer = NULL;
+		buffer = *cache;
+		*cache = NULL;
 	}
-	return (line);
+	return (buffer);
 }
 
-int	f_line2buffer(char *line, char **buffer, ssize_t bytes)
+int	f_line2buffer(char *buffer, char **cache, ssize_t bytes)
 {
 	if (bytes > 0)
 	{
-		line[bytes] = 0;
-		*buffer = f_realloc(*buffer, ft_strlen(*buffer) + bytes);
-		if (!*buffer)
+		buffer[bytes] = 0;
+		*cache = f_realloc(*cache, ft_strlen(*cache) + bytes);
+		if (!*cache)
 		{
-			free(line);
+			free(buffer);
 			return (0);
 		}
-		ft_strcat(*buffer, line);
-		if (!f_newline(line))
+		ft_strcat(*cache, buffer);
+		if (!f_newline(buffer))
 		{
-			free(line);
+			free(buffer);
 			return (-1);
 		}
-		free(line);
+		free(buffer);
 		return (1);
 	}
-	free(line);
+	free(buffer);
 	if (bytes == 0)
 		return (0);
-	free(*buffer);
-	*buffer = NULL;
+	free(*cache);
+	*cache = NULL;
 	return (0);
 }
 
 char	*get_next_line(int fd)
 {
-	static char *buffer;
-	char	*line;
+	static char *cache;
+	char	*buffer;
 	ssize_t	bytes;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
-	if (!buffer)
+	if (!cache)
 	{
-		buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+		cache = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+		if (!cache)
+			return (NULL);
+		ft_bzero(cache, BUFFER_SIZE + 1);
+	}
+	while (!f_newline(cache))
+	{
+		buffer = (char *)malloc(BUFFER_SIZE + 1);
+		ft_bzero(buffer, BUFFER_SIZE + 1);
 		if (!buffer)
 			return (NULL);
-		ft_bzero(buffer, BUFFER_SIZE + 1);
-	}
-	while (!f_newline(buffer))
-	{
-		line = (char *)malloc(BUFFER_SIZE + 1);
-		if (!line)
-			return (NULL);
-		bytes = read(fd, line, BUFFER_SIZE);
-		if (f_line2buffer(line, &buffer, bytes) == 1)
-			break ;
+		bytes = read(fd, buffer, BUFFER_SIZE);
+		if (f_line2buffer(buffer, &cache, bytes) == 1) break ;
 		else if (bytes == 0)
 			break ;
 	}
-	line = f_set_line(&buffer);
-	if(line && line[0] == 0)
+	buffer = f_set_line(&cache);
+	if(buffer && buffer[0] == 0)
 	{
-		free(line);
+		free(buffer);
 		return NULL;
 	}
-	return (line);
+	return (buffer);
 }
