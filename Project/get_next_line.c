@@ -6,7 +6,7 @@
 /*   By: abdnasse <abdnasse@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:50:09 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/20 13:56:22 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/21 18:13:01 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -26,29 +26,50 @@ char	*ft_strdup(const char *s)
 	return (p);
 }
 
-char	*_set_line(char **buffer)
+char	*f_set_line(char **buffer)
 {
 	size_t	index;
 	char	*line;
 	char	*cache;
 
-	index = _newline(*buffer);
+	index = f_newline(*buffer);
 	if (index > 0)
 	{
 		cache = ft_strdup(*buffer + index);
-		line = _realloc(*buffer, index);
+		line = f_realloc(*buffer, index);
 		if(!line)
 			return (NULL);
 		*buffer = cache;
 	}
 	else 
 	{
-		line = _realloc(*buffer, ft_strlen(*buffer));
+		line = f_realloc(*buffer, ft_strlen(*buffer));
 		if (!line)
 			return (NULL);
 		*buffer = NULL;
 	}
 	return (line);
+}
+
+int	f_line2buffer(char *line, char **buffer, ssize_t bytes)
+{
+	if (bytes > 0)
+	{
+		line[bytes] = 0;
+		*buffer = f_realloc(*buffer, ft_strlen(*buffer) + bytes);
+		if (!*buffer)
+		{
+			free(line);
+			return (0);
+		}
+		ft_strcat(*buffer, line);
+		free(line);
+		return (1);
+	}
+	free(line);
+	free(*buffer);
+	*buffer = NULL;
+	return (0);
 }
 
 char	*get_next_line(int fd)
@@ -66,29 +87,17 @@ char	*get_next_line(int fd)
 			return (NULL);
 		ft_bzero(buffer, BUFFER_SIZE + 1);
 	}
-	while (!_newline(buffer))
+	while (!f_newline(buffer))
 	{
 		line = (char *)malloc(BUFFER_SIZE + 1);
 		if (!line)
 			return (NULL);
 		bytes = read(fd, line, BUFFER_SIZE);
-		if (bytes < 0)
-		{
-			free(buffer);
-			return (NULL);
-		}
-		line[bytes] = '\0';
-		buffer = _realloc(buffer, ft_strlen(buffer) + bytes);
-		if (!buffer)
-		{
-			free(line);
-			return (NULL);
-		}
-		ft_strcat(buffer, line);
-		free(line);
-		if (bytes == 0)
+		if (f_line2buffer(line, &buffer, bytes))
 			break ;
+		else
+			return (NULL);
 	}
-	line = _set_line(&buffer);
+	line = f_set_line(&buffer);
 	return (line);
 }

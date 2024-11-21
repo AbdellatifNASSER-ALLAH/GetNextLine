@@ -6,10 +6,11 @@
 /*   By: abdnasse <abdnasse@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:48:30 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/20 13:56:19 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/21 17:06:06 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
+
 
 size_t	ft_strlen(const char *s)
 {
@@ -41,7 +42,7 @@ size_t	ft_strcat(char *dst, char *src)
 	return (i);
 }
 
-size_t	_newline(char *p)
+size_t	f_newline(char *p)
 {
 	size_t	i;
 
@@ -55,7 +56,7 @@ size_t	_newline(char *p)
 	return (0);
 }
 
-char	*_realloc(char *s, size_t n)
+char	*f_realloc(char *s, size_t n)
 {
 	char	*p;
 	size_t	i;

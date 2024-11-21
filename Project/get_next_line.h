@@ -22,8 +22,8 @@
 #endif
 
 char	*get_next_line(int fd);
-char	*_realloc(char *s, size_t n);
-size_t	_newline(char *p);
+char	*f_realloc(char *s, size_t n);
+size_t	f_newline(char *p);
 void	ft_bzero(void *s, size_t n);
 size_t	ft_strlen(const char *s);
 size_t	ft_strcat(char *s1, char *s2);

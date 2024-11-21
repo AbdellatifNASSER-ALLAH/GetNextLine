@@ -5,20 +5,22 @@
 #include <fcntl.h>
 #include <string.h>
 
-void	ft_putstr_fd(char *s, int fd)
+void	prints(char *s)
 {
-	if (!s || fd < 0)
+	if (!s)
 		return ;
-	write(fd, s, strlen(s));
+	write(1, s, strlen(s));
 }
 int main()
 {
 	int fd = open("a", O_RDONLY);
 	char *p;
 
-	p = get_next_line(fd);
-	ft_putstr_fd(p, 1);
-	free(p);
-	ft_putstr_fd("\nruning...", 1);
-	while(1){}
+	while ((p = get_next_line(fd)))
+	{
+		prints(p);
+		free(p);
+	}
+	printf("%p\n",p);
+	prints("done\n");	
 }
