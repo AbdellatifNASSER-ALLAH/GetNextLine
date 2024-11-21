@@ -6,7 +6,7 @@
 /*   By: abdnasse <abdnasse@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:50:09 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/21 23:20:06 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/22 00:06:22 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -36,9 +36,11 @@ char	*f_set_line(char **cache)
 	if (index > 0)
 	{
 		up = ft_strdup(*cache + index);
-		
 		if (!up)
-			return (NULL);
+		{
+			free(*cache);
+			return (*cache = NULL);
+		}
 		buffer = f_realloc(*cache, index);
 		if(!buffer)
 		{
@@ -105,8 +107,9 @@ char	*get_next_line(int fd)
 		if (!buffer)
 			return (NULL);
 		bytes = read(fd, buffer, BUFFER_SIZE);
-		if (f_line2buffer(buffer, &cache, bytes) == 1) break ;
-		else if (bytes == 0)
+		if (f_line2buffer(buffer, &cache, bytes) == 1) 
+			break ;
+		if (bytes == 0 || !cache)
 			break ;
 	}
 	buffer = f_set_line(&cache);

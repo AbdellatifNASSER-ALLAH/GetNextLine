@@ -1,0 +1,9 @@
+break f_realloc
+break ft_strdup
+break f_set_line
+break f_line2buffer
+start
+c
+c
+n
+set var p = 0

@@ -30,6 +30,5 @@ int main()
 			free(p);
 		//	getchar();
 		}
-		while (1){}
 	return (0);
 }
