@@ -9,11 +9,22 @@ void	prints(char *s)
 {
 	if (!s)
 		return ;
-	write(1, s, strlen(s));
+	int i = 0;
+	while (s[i])
+	{
+		if (s[i] == '\n')
+			write(1, "\\n", 2);
+		else 
+			write(1, &s[i], 1);
+		i++;
+	}
+	write(1, "\\0\n", 3);
 }
-int main()
+int main(int ac, char **av)
 {
-	int fd = open("a", O_RDONLY);
+	if (ac > 1)
+	{
+	int fd = open(av[1], O_RDONLY);
 	char *p;
 
 	while ((p = get_next_line(fd)))
@@ -21,6 +32,8 @@ int main()
 		prints(p);
 		free(p);
 	}
-	printf("%p\n",p);
+	printf("\nthe last should be null : %p\n",p);
 	prints("done\n");	
+	}
+	return (0);
 }
