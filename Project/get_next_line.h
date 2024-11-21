@@ -6,7 +6,7 @@
 /*   By: abdnasse <abdnasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:45:38 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/20 13:53:46 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/21 20:41:13 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 
 #ifndef BUFFER_SIZE

@@ -6,7 +6,7 @@
 /*   By: abdnasse <abdnasse@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:50:09 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/21 20:12:46 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/21 21:13:23 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -43,9 +43,7 @@ char	*f_set_line(char **buffer)
 	}
 	else 
 	{
-		line = f_realloc(*buffer, ft_strlen(*buffer));
-		if (!line)
-			return (NULL);
+		line = *buffer;
 		*buffer = NULL;
 	}
 	return (line);
@@ -63,10 +61,17 @@ int	f_line2buffer(char *line, char **buffer, ssize_t bytes)
 			return (0);
 		}
 		ft_strcat(*buffer, line);
+		if (!f_newline(line))
+		{
+			free(line);
+			return (-1);
+		}
 		free(line);
 		return (1);
 	}
 	free(line);
+	if (bytes == 0)
+		return (0);
 	free(*buffer);
 	*buffer = NULL;
 	return (0);
@@ -93,11 +98,16 @@ char	*get_next_line(int fd)
 		if (!line)
 			return (NULL);
 		bytes = read(fd, line, BUFFER_SIZE);
-		if (f_line2buffer(line, &buffer, bytes))
+		if (f_line2buffer(line, &buffer, bytes) == 1)
 			break ;
-		else
-			return (NULL);
+		else if (bytes == 0)
+			break ;
 	}
 	line = f_set_line(&buffer);
+	if(line && line[0] == 0)
+	{
+		free(line);
+		return NULL;
+	}
 	return (line);
 }

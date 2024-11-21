@@ -7,9 +7,8 @@
 
 void	prints(char *s)
 {
-	if (!s)
-		return ;
 	int i = 0;
+	write(1, "\"", 1);
 	while (s[i])
 	{
 		if (s[i] == '\n')
@@ -18,22 +17,21 @@ void	prints(char *s)
 			write(1, &s[i], 1);
 		i++;
 	}
-	write(1, "\\0\n", 3);
+	write(1, "\\0\"\n", 4);
 }
 int main(int ac, char **av)
 {
 	if (ac > 1)
 	{
-	int fd = open(av[1], O_RDONLY);
-	char *p;
+		int fd = open(av[1], O_RDONLY);
+		char *p;
 
-	while ((p = get_next_line(fd)))
-	{
-		prints(p);
-		free(p);
-	}
-	printf("\nthe last should be null : %p\n",p);
-	prints("done\n");	
+		while ((p = get_next_line(fd)))
+		{
+			prints(p);
+			free(p);
+//			getchar();
+		}
 	}
 	return (0);
 }
