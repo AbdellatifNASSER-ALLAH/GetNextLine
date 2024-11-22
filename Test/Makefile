@@ -2,7 +2,7 @@
 
 d =
 
-CFLAGS = -g -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -g -Wall -Wextra -Werror
 ifneq ($(d),)
     CFLAGS += -D BUFFER_SIZE=$(d)
 endif

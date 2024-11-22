@@ -21,7 +21,7 @@ void	prints(char *s)
 }
 int main()
 {
-		int fd = open("read_error.txt", O_RDONLY);
+		int fd = open("a", O_RDONLY);
 		char *p;
 
 		while ((p = get_next_line(fd)))
@@ -30,5 +30,6 @@ int main()
 			free(p);
 		//	getchar();
 		}
+		printf("%s \n",p);
 	return (0);
 }
