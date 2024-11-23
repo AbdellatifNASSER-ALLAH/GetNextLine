@@ -6,7 +6,7 @@
 /*   By: abdnasse <abdnasse@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:50:09 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/23 12:25:32 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/23 13:07:14 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -60,13 +60,15 @@ char	*f_set_line(char **cache)
 		*cache = next_cache;
 		return (line);
 	}
-	line = ft_strdup(*cache);
-	free(*cache);
-	*cache = NULL;
-	if (*line)
+	if (**cache)
+	{
+		line = ft_strdup(*cache);
+		free(*cache);
+		*cache = NULL;
 		return (line);
-	free(line);
-	return (NULL);
+	}
+	free(*cache);
+	return (*cache = NULL);
 }
 
 int	f_buffer_to_cache(char *buffer,char **cache, ssize_t bytes)
