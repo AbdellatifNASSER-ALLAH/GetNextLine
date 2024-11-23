@@ -6,7 +6,7 @@
 /*   By: abdnasse <abdnasse@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:48:30 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/23 11:59:11 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/23 15:18:24 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -63,7 +63,10 @@ char	*f_realloc(char *s, size_t n)
 
 	p = f_malloc(n + 1);
 	if (!p)
-		return (NULL);
+	{
+		free(s);
+		return (s = NULL);
+	}
 	i = 0;
 	while (s[i] && i < n)
 	{

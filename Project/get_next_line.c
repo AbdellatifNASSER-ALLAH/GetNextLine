@@ -6,7 +6,7 @@
 /*   By: abdnasse <abdnasse@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:50:09 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/23 13:07:14 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/23 15:41:45 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -18,11 +18,14 @@ char	*get_next_line(int fd)
 	char	*buffer;
 	ssize_t	bytes;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
-		return (NULL);
+	if ((fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0) && cache)
+	{
+		free(cache);
+		return (cache = NULL);
+	}
 	if (!cache && ((cache = f_malloc(BUFFER_SIZE + 1)) == NULL))
 		return (NULL);
-	while (!f_newline(cache))
+	while (1)
 	{
 		if ((buffer = f_malloc(BUFFER_SIZE + 1)) == NULL)
 		{
@@ -35,8 +38,7 @@ char	*get_next_line(int fd)
 		if (bytes < 0)
 			return (NULL);
 	}
-	buffer = f_set_line(&cache);
-	return (buffer);
+	return (f_set_line(&cache));
 }
 
 char	*f_set_line(char **cache)
@@ -65,6 +67,11 @@ char	*f_set_line(char **cache)
 		line = ft_strdup(*cache);
 		free(*cache);
 		*cache = NULL;
+		if (!line)
+		{
+			free(line);
+			return (NULL);
+		}
 		return (line);
 	}
 	free(*cache);
@@ -78,11 +85,7 @@ int	f_buffer_to_cache(char *buffer,char **cache, ssize_t bytes)
 		buffer[bytes] = '\0';
 		*cache = f_realloc(*cache, ft_strlen(*cache) + bytes);
 		if (!(*cache))
-		{
-			free(*cache);
-			*cache = NULL;
 			return (0);
-		}
 		ft_strcat(*cache, buffer);
 		free(buffer);
 		if (f_newline(*cache))
