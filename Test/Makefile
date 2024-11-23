@@ -1,6 +1,7 @@
 
 
 d =
+f =
 
 CFLAGS = -g -Wall -Wextra -Werror
 ifneq ($(d),)
@@ -11,7 +12,7 @@ all:
 	@echo;
 	cc $(CFLAGS) test.c ../Project/*.c -I../Project;
 	@echo "\n---------------------Output---------------------";
-	@./a.out
+	@./a.out $(f)
 
 clean:
 	rm -rf a.out*

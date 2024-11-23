@@ -19,17 +19,20 @@ void	prints(char *s)
 	}
 	write(1, "\\0\"\n", 4);
 }
-int main()
+int main(int ac, char **av)
 {
-		int fd = open("a", O_RDONLY);
-		char *p;
-
-		while ((p = get_next_line(fd)))
-		{
-			prints(p);
-			free(p);
+	int fd;
+	char *p;
+	char *name = "a";
+	if (ac == 2)
+		name = av[1];
+	fd = open(name, O_RDONLY);
+	while ((p = get_next_line(fd)))
+	{
+		prints(p);
+		free(p);
 		//	getchar();
-		}
-		printf("%s \n",p);
+	}
+	printf("%s \n",p);
 	return (0);
 }
