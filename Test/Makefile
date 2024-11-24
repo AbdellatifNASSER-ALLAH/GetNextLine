@@ -14,5 +14,10 @@ all:
 	@echo "\n---------------------Output---------------------";
 	@./a.out $(f)
 
+bonus:
+	cc $(CFLAGS) bonus.c ../Project/*bonus.c -I../Project;
+	@echo "\n---------------Bonus-----------";
+	@./a.out
+
 clean:
 	rm -rf a.out*

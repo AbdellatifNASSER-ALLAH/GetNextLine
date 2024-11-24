@@ -1,4 +1,0 @@
-break f_malloc
-n
-p $rax
-

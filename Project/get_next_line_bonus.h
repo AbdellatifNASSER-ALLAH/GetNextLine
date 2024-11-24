@@ -6,7 +6,7 @@
 /*   By: abdnasse <abdnasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:45:38 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/23 20:23:15 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/24 15:51:41 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1337
-# endif
+#endif
+# define MAX_FDS 1024
 
 char	*get_next_line(int fd);
 char	*f_realloc(char *s, size_t n);
