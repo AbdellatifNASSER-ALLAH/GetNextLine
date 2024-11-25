@@ -1,4 +1,4 @@
-#include "../Project/get_next_line.h"
+#include "../Project/get_next_line_bonus.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>

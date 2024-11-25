@@ -6,10 +6,19 @@
 /*   By: abdnasse <abdnasse@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:48:30 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/23 20:25:56 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/25 16:50:08 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line_bonus.h"
+
+void	ft_bzero(void *b, size_t len)
+{
+	unsigned char	*t;
+
+	t = b;
+	while (len--)
+		t[len] = 0;
+}
 
 size_t	ft_strlen(const char *s)
 {
@@ -19,15 +28,6 @@ size_t	ft_strlen(const char *s)
 	while (s[i])
 		i++;
 	return (i);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	char	*p;
-
-	p = s;
-	while (n--)
-		p[n] = 0;
 }
 
 size_t	ft_strcat(char *dst, char *src)
@@ -60,20 +60,17 @@ char	*f_realloc(char *s, size_t n)
 	char	*p;
 	size_t	i;
 
-	p = f_malloc(n + 1);
+	p = (char *)malloc((n + 1) * sizeof(char));
 	if (!p)
-	{
-		free(s);
-		return (s = NULL);
-	}
+		return (f_free(&s));
+	ft_bzero(p, n + 1);
 	i = 0;
 	while (s[i] && i < n)
 	{
 		p[i] = s[i];
 		i++;
 	}
-	free(s);
-	s = NULL;
+	f_free(&s);
 	p[i] = '\0';
 	return (p);
 }

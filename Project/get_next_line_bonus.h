@@ -6,7 +6,7 @@
 /*   By: abdnasse <abdnasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:45:38 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/25 14:34:14 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/25 16:49:47 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@
 char	*get_next_line(int fd);
 char	*f_realloc(char *s, size_t n);
 size_t	f_newline(char *p);
-void	ft_bzero(void *s, size_t n);
 size_t	ft_strlen(const char *s);
 size_t	ft_strcat(char *s1, char *s2);
-char	*f_malloc(size_t size);
 int		f_buffer_to_cache(char *buffer, char **cache, ssize_t bytes);
 char	*f_set_line(char **cache);
 char	*ft_strdup(const char *s);
+void	*f_free(char **p);
+void	ft_bzero(void *b, size_t len);
 
 #endif
