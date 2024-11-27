@@ -6,7 +6,7 @@
 /*   By: abdnasse <abdnasse@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:50:09 by abdnasse          #+#    #+#             */
-/*   Updated: 2024/11/25 16:58:41 by abdnasse         ###   ########.fr       */
+/*   Updated: 2024/11/27 16:24:12 by abdnasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line_bonus.h"
@@ -17,21 +17,21 @@ char	*get_next_line(int fd)
 	char		*buffer;
 	ssize_t		bytes;
 
-	if ((fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0) && cache[fd])
-		return (f_free(&cache[fd]));
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > MAX_FDS)
+		return (NULL);
 	if (!cache[fd])
 	{
-		cache[fd] = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+		cache[fd] = (char *)malloc(((size_t)BUFFER_SIZE + 1) * sizeof(char));
 		if (!cache[fd])
 			return (NULL);
-		ft_bzero(cache[fd], BUFFER_SIZE + 1);
+		ft_bzero(cache[fd], (size_t)BUFFER_SIZE + 1);
 	}
 	while (1)
 	{
-		buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+		buffer = (char *)malloc(((size_t)BUFFER_SIZE + 1) * sizeof(char));
 		if (!buffer)
 			return (f_free(&cache[fd]));
-		bytes = read(fd, buffer, BUFFER_SIZE);
+		bytes = read(fd, buffer, (size_t)BUFFER_SIZE);
 		if (f_buffer_to_cache(buffer, &cache[fd], bytes) == 1)
 			break ;
 		if (bytes < 0)
